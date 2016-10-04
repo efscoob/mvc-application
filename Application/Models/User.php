@@ -25,7 +25,7 @@ class User extends Model
     {
         // TODO: Implement findById() method.
         $db = new Db();
-        $user =  $db->query("SELECT * FROM " . static::TABLE . ' WHERE id=' . $id, static::class);
+        $user =  $db->query('SELECT * FROM ' . static::TABLE . ' WHERE id=' . $id, static::class);
         if ($user) {
             return ['name' => $user->name, 'email' => $user->email];
         }

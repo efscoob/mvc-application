@@ -15,6 +15,9 @@ $sql = 'CREATE TABLE news (
 $db->execute($sql);
 */
 
+$conf = \Application\Config::instance();
+var_dump($conf->data);
+
 $news = News::getLastNews();
 
 include 'Templates/index.php';

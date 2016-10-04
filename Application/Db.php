@@ -17,9 +17,9 @@ class Db
         return $res;
     }
 
-    public function query(string $sql, string $class = 'stdClass') {
+    public function query(string $sql, string $class = 'stdClass', array $params = []) {
         $sth = $this->_dbh->prepare($sql);
-        $res = $sth->execute();
+        $res = $sth->execute($params);
         if (false !== $res) {
             return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
         }
