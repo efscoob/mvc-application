@@ -19,8 +19,8 @@ class Config
         $this->data = parse_ini_file(static::CONFIG_PATH);
     }
 
-    static public function instance() {
-        if (empty(self::$_instance)) {
+    static public function getInstance() {
+        if (null == self::$_instance) {
             self::$_instance = new self;
         }
         return self::$_instance;
