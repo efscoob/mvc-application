@@ -1,29 +1,45 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Люба
- * Date: 01.10.2016
- * Time: 15:18
- */
 
 namespace Application\Models;
 
 
 use Application\Db;
 
-class News
+class News extends Model
 {
     const TABLE = 'news';
 
-    public $id;
     public $title;
-    public $news;
+    public $lead;
+    public $author_id;
 
-    public function __construct() {
+    function __get($k)
+    {
+        switch ($k) {
+            case 'author':
+                if (!empty($this->author_id)) {
+                    return Author::findById($this->author_id);
+                } else {
+                    return null;
+                }
+                break;
+            default:
+                return null;
+        }
+    }
+
+    function __isset($prop)
+    {
+        switch ($prop) {
+            case 'author':
+                return (!empty($this->author));
+                break;
+            default: return false;
+        }
     }
 
     public static function getLastNews() {
-        $db = new Db();
+        $db = Db::getInstance();
         if ($res = $db->query('SELECT count(*) as count FROM ' . static::TABLE)) {
             $cnt = $res[0]->count;
             $cnt = ($cnt > 4) ? $cnt -= 4 : $cnt = 1;

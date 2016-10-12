@@ -4,28 +4,37 @@ namespace Application;
 
 class Db
 {
-    private static $instance;
-    private $_dbh;
     
+    private $_dbh;
+
+    use Singletone;
+
+    /**
+     * Db constructor.
+     */
     private function __construct()
     {
         $data = Config::getInstance()->data;
         $this->_dbh = new \PDO("mysql:host={$data['localhost']};dbname={$data['dbname']}", $data['login'], $data['pass']);
     }
 
-    public static function getInstance() {
-        if (null == self::$instance) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
+    /**
+     * @param string $sql
+     * @param array $params
+     * @return bool
+     */
     public function execute(string $sql, array $params = []) {
         $sth = $this->_dbh->prepare($sql);
         $res = $sth->execute($params);
         return $res;
     }
 
+    /**
+     * @param string $sql
+     * @param string $class
+     * @param array $params
+     * @return array
+     */
     public function query(string $sql, string $class = 'stdClass', array $params = [])
     {
         $sth = $this->_dbh->prepare($sql);
@@ -36,6 +45,9 @@ class Db
         return [];
     }
 
+    /**
+     * @return string
+     */
     public function lastInsertId() {
         return $this->_dbh->lastInsertId();
     }
