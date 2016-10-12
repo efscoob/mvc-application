@@ -14,6 +14,9 @@ $db->execute($sql);
 $authors = \Application\Models\Author::findAll();
 var_dump($authors);
 
+//$view->users = User::findAll();
+//$view->display(__DIR__ . '/Application/Templates/users.php');
+
 $user = new User();
 $user->name = 'Vika';
 $user->email = 'vik@girl.ru';

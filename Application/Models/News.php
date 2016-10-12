@@ -23,6 +23,8 @@ class News extends Model
                     return null;
                 }
                 break;
+            case 'id':
+                return $this->id;
             default:
                 return null;
         }
@@ -32,7 +34,8 @@ class News extends Model
     {
         switch ($prop) {
             case 'author':
-                return (!empty($this->author));
+                return true;
+                //return (!empty($this->author));
                 break;
             default: return false;
         }
