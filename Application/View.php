@@ -5,11 +5,11 @@ namespace Application;
 
 class View
 {
-    use Magic;
-    
+    use TMagic;
+
     public function render($template)
     {
-        foreach($this->data as $prop => $value) {
+        foreach ($this->data as $prop => $value) {
             $$prop = $value;
         }
         ob_start();

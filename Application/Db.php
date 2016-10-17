@@ -7,15 +7,12 @@ class Db
     
     private $_dbh;
 
-    use Singletone;
-
-    /**
-     * Db constructor.
-     */
+    use TSingletone;
+    
     private function __construct()
     {
-        $data = Config::getInstance()->data;
-        $this->_dbh = new \PDO("mysql:host={$data['localhost']};dbname={$data['dbname']}", $data['login'], $data['pass']);
+        $config = Config::getInstance()->data;
+        $this->_dbh = new \PDO("mysql:host={$config['db']['localhost']};dbname={$config['db']['dbname']}", $config['db']['login'], $config['db']['pass']);
     }
 
     /**

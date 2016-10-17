@@ -7,8 +7,7 @@ use Application\Db;
 abstract class Model
 {
     const TABLE = '';
-    protected $id;
-    
+    public $id;
 
     public static function findAll() {
         $db = Db::getInstance();
@@ -40,13 +39,12 @@ abstract class Model
             }
             $cols[] = $k;
             $vals[':' . $k] = $v;
-            $impl[] = $k . '=:' . $k;
+            //$impl[] = $k . '=:' . $k;
         }
         $sql = 'INSERT INTO ' . static::TABLE . '(' . implode(',', $cols) . ') VALUES(' . implode(',', array_keys($vals)) . ')';
         $db->execute($sql, $vals);
 
         $this->id = $db->lastInsertId();
-        echo $this->id;
     }
 
     public function update() {
@@ -55,11 +53,11 @@ abstract class Model
         }
         foreach($this as $k => $v) {
             if ($k == 'id') {
+                $vals[':' . $k] = $v;
                 continue;
             }
-            $cols[] = $k;
             $vals[':' . $k] = $v;
-            $impl[] = $k . ':=' . $k;
+            $impl[] = $k . '=:' . $k;
         }
         $db = Db::getInstance();
         $sql = 'UPDATE ' . static::TABLE . ' SET ' . implode(',', $impl) . ' WHERE id=:id';
@@ -78,7 +76,7 @@ abstract class Model
 
     public function save() {
         if ($this->isNew()) {
-            $this->inert();
+            $this->insert();
         } else {
             $this->update();
         }

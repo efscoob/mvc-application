@@ -1,24 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Люба
- * Date: 04.10.2016
- * Time: 20:04
- */
 
 namespace Application;
 
 
 class Config
 {
-    const CONFIG_PATH = 'C:\OpenServer\domains\localhost\webapp\data.ini';
-    //static private $instance;
+    const CONFIG_PATH = __DIR__ . '\..\data.ini';
     public $data = [];
     
-    use Singletone;
+    use TSingletone;
     
     private function __construct() {
-        $this->data = parse_ini_file(static::CONFIG_PATH);
+        $this->data['db'] = parse_ini_file(static::CONFIG_PATH);
     }
     
 }

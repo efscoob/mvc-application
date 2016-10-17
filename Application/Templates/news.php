@@ -19,6 +19,7 @@
 </head>
 <body>
 
+<div align="right"><?php echo "<a href='/webapp/admin/add'>Добавить новость</a>"; ?></div>
 <h1>Новостная лента</h1>
 
 <?php foreach ($news as $article) : ?>
@@ -26,7 +27,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <?php if (!empty($article->title)) : ?>
-                <?php echo "<a href='index.php?id={$article->id}'>$article->title</a>"; ?>
+                <?php echo "<a href='/webapp/news/one/id/$article->id'>$article->title</a>"; ?>
+                <div align="right"><?php echo "<a href='/webapp/admin/edit/id/$article->id'>Редактировать</a>"; ?></div>
+                <div align="right"><?php echo "<a href='/webapp/admin/delete/id/$article->id'>Удалить</a>"; ?></div>
             <?php else : ?>
                 -= Без заголовка =-
             <?php endif; ?>

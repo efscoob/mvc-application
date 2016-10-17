@@ -37,11 +37,13 @@ class News extends Model
                 return true;
                 //return (!empty($this->author));
                 break;
-            default: return false;
+            default:
+                return false;
         }
     }
 
-    public static function getLastNews() {
+    public static function getLastNews()
+    {
         $db = Db::getInstance();
         if ($res = $db->query('SELECT count(*) as count FROM ' . static::TABLE)) {
             $cnt = $res[0]->count;

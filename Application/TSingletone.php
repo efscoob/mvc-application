@@ -3,7 +3,7 @@
 namespace Application;
 
 
-trait Singletone
+trait TSingletone
 {
 
     protected static $instance;

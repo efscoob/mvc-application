@@ -3,7 +3,7 @@
 namespace Application;
 
 
-trait Magic
+trait TMagic
 {
     protected $data = [];
     

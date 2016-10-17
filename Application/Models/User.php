@@ -2,8 +2,6 @@
 
 namespace Application\Models;
 
-use Application\Db;
-
 class User extends Model implements \Countable
 {
     const TABLE = 'users';
