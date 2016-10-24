@@ -3,7 +3,7 @@
 namespace Application\Controllers;
 
 
-use Application\Models\Author;
+use Application\Exceptions\MultiException;
 
 class Admin
 {
@@ -12,19 +12,30 @@ class Admin
     protected function actionAdd()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = trim($_POST['author']);
-            if (empty($author = \Application\Models\Author::findByName($name))) {
+            $author = \Application\Models\Author::findByName($_POST['author'])[0];
+            if (empty($author) && !empty($_POST['author'])) {
                 $author = new \Application\Models\Author();
-                $author->name = $name;
-                $author->save();
+                try {
+                    $author->fill($_POST);
+                    $author->save();
+                } catch (MultiException $e) {
+                    $this->view->errors[] = $e;
+                }
             }
             $article = new \Application\Models\News();
-            $article->author_id = $author->id;
-            $article->title = trim($_POST['title']);
-            $article->lead = trim($_POST['lead']);
-            $article->save();
-            header("Location: /webapp/news/all");
-            die();
+            if (empty($article->author_id = $author->id)) {
+                $article->author_id = NULL;
+            }
+            try {
+                $article->fill($_POST);
+                $article->save();
+                header("Location: /webapp/news/all");
+                die();
+            } catch (MultiException $e) {
+                (new \Application\Logger('admin'))->info('Сработало мультиисключение');
+                //var_dump($e);
+                $this->view->errors[] = $e;
+            }
         }
         $this->view->display(__DIR__ . '/../Templates/addnews.php');
     }

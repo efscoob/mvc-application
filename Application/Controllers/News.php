@@ -9,7 +9,7 @@ class News
 
     protected function actionAll()
     {
-        $this->view->news = \Application\Models\News::getLastNews();
+        $this->view->news = \Application\Models\News::getLastNews(5);
         $this->view->display(__DIR__ . '/../Templates/news.php');
     }
 

@@ -2,17 +2,27 @@
 
 namespace Application;
 
+/**
+ * Class Db
+ * @package Application
+ */
 class Db
 {
     
     private $_dbh;
 
     use TSingletone;
-    
+
     private function __construct()
     {
         $config = Config::getInstance()->data;
-        $this->_dbh = new \PDO("mysql:host={$config['db']['localhost']};dbname={$config['db']['dbname']}", $config['db']['login'], $config['db']['pass']);
+        try {
+            $this->_dbh = new \PDO("mysql:host={$config['db']['localhost']};dbname={$config['db']['dbname']}",
+                                    $config['db']['login'],
+                                    $config['db']['pass']);
+        } catch (\PDOException $e) {
+            throw new \Application\Exceptions\Db($e->getMessage());
+        }    
     }
 
     /**
